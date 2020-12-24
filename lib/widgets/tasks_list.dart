@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:ndialog/ndialog.dart';
 import 'package:provider/provider.dart';
 import 'package:todoey/models/task_data.dart';
 import 'package:todoey/widgets/task_tile.dart';
@@ -18,10 +20,57 @@ class TasksList extends StatelessWidget {
                 taskData.updateTask(task);
               },
               longPressCallBack: () {
-                AlertDialog(
-                  title: Text("Are you sure you want to delete this task?"),
-                );
-                taskData.deleteTask(task);
+                showDialog(
+                    context: context,
+                    builder: (context) {
+                      return NAlertDialog(
+                        title: Center(
+                          child: Container(
+                            margin: EdgeInsets.only(top: 12),
+                            child: Text(
+                              "Delete this task?",
+                              style: TextStyle(
+                                  color: Colors.lightBlueAccent,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 25),
+                            ),
+                          ),
+                        ),
+                        content: SingleChildScrollView(
+                          child: SizedBox(
+                            height: 20,
+                          ),
+                        ),
+                        actions: <Widget>[
+                          FlatButton(
+                            child: Text(
+                              "NO",
+                            ),
+                            textColor: Colors.white,
+                            color: Colors.grey,
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                          ),
+                          FlatButton(
+                            child: Text("YES"),
+                            textColor: Colors.white,
+                            color: Colors.lightBlueAccent,
+                            onPressed: () {
+                              taskData.deleteTask(task);
+                              Navigator.of(context).pop();
+                              Fluttertoast.showToast(
+                                  msg: "Task Deleted",
+                                  toastLength: Toast.LENGTH_SHORT,
+                                  gravity: ToastGravity.BOTTOM,
+                                  backgroundColor: Colors.lightBlueAccent,
+                                  textColor: Colors.white,
+                                  fontSize: 16.0);
+                            },
+                          ),
+                        ],
+                      );
+                    });
               },
             );
           },

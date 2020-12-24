@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:todoey/screens/tasks_screen.dart';
+import 'package:todoey/screens/splash_screen.dart';
 import 'package:provider/provider.dart';
 import 'models/task_data.dart';
 
-void main() => runApp(MyApp());
+void main() {
+  runApp(MyApp());
+}
 
 class MyApp extends StatelessWidget {
   @override
@@ -11,7 +13,7 @@ class MyApp extends StatelessWidget {
     return ChangeNotifierProvider(
       create: (context) => TaskData(),
       child: MaterialApp(
-        home: TasksScreen(),
+        home: SplashScreen(),
       ),
     );
   }
